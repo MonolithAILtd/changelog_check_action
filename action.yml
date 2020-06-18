@@ -4,7 +4,7 @@ inputs:
   changelog_file:  # id of input
     description: 'The location of the changelog file eg ./CHANGELOG.md'
     required: false
-    default: './CHANGELOG.md'
+    default: 'CHANGELOG.md'
 outputs:
   changelog_updates: # id of output
     description: 'The updates to the changelog'
