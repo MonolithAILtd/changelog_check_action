@@ -1,0 +1,13 @@
+name: 'Check Changelog'
+description: 'Checks that a changelog file has been updated'
+inputs:
+  changelog_file:  # id of input
+    description: 'The location of the changelog file eg ./CHANGELOG.md'
+    required: false
+    default: './CHANGELOG.md'
+outputs:
+  changelog_additions: # id of output
+    description: 'The lines added to the changelog'
+runs:
+  using: 'node12'
+  main: 'index.js'
