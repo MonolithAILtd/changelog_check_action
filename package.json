@@ -19,6 +19,7 @@
   "homepage": "https://github.com/MonolithAILtd/updated_changelog_check_action#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@actions/github": "^3.0.0"
+    "@actions/github": "^3.0.0",
+    "@octokit/action": "^3.0.0"
   }
 }
