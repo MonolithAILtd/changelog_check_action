@@ -6,8 +6,8 @@ inputs:
     required: false
     default: './CHANGELOG.md'
 outputs:
-  changelog_additions: # id of output
-    description: 'The lines added to the changelog'
+  changelog_updates: # id of output
+    description: 'The updates to the changelog'
 runs:
   using: 'node12'
   main: 'index.js'

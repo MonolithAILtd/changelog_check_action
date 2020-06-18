@@ -17,18 +17,28 @@ async function main() {
     const pull_number = number;
 
     if (!pull_number) {
-      console.log('This action was initiated by something other than a pull_request');
-      process.exit(0);
+      throw 'This action was initiated by something other than a pull_request'
     }
 
     console.log(`Getting commits for pull_number: ${pull_number}`);
     console.log(`Searching for: ${changelogLocation}`);
 
     const files = await octokit.pulls.listFiles({owner, repo, pull_number});
-    const payload_string = JSON.stringify(github.context.payload, undefined, 2)
-    const files_string = JSON.stringify(files, undefined, 2)
-    console.log(`The event payload: ${payload_string}`);
-    console.log(`The PR files information: ${files_string}`);
+    const changelog_data= files.data.filter(function(file_data) {
+      return file_data.filename == changelogLocation;
+    })
+    if (changelog_data.length == 0) {
+      throw "Changelog needs to be updated with each PR"
+    }
+    const new_additions = changelog_data[0].additions - changelog_data[0].deletions
+    if (new_additions <= 0) {
+      throw "Changelog update needs to include additional information"
+    }
+    core.setOutput("changelog_updates", changelog_data[0].patch);
+    // const payload_string = JSON.stringify(github.context.payload, undefined, 2)
+    // const files_string = JSON.stringify(files, undefined, 2)
+    // console.log(`The event payload: ${payload_string}`);
+    // console.log(`The PR files information: ${files_string}`);
   } catch (error) {
     core.setFailed(error.message);
   }
