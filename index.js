@@ -14,6 +14,7 @@ async function main() {
 
     const payload = github.context.payload
     const {number} = payload;
+    const {strict_mode} = payload;
     const pull_number = number;
 
     if (!pull_number) {
@@ -30,7 +31,15 @@ async function main() {
     if (changelog_data.length == 0) {
       throw "Changelog needs to be updated with each PR"
     }
-    const new_additions = changelog_data[0].additions - changelog_data[0].deletions
+
+    // We either check for some additions (default behaviour) or in strict mode we need additions to outnumber deletions
+    const net_new_additions = changelog_data[0].additions - changelog_data[0].deletions
+    let new_additions = 0
+    if (strict_mode == undefined) {
+      new_additions = changelog_data[0].additions
+    } else {
+      new_additions = net_new_additions
+    }
     if (new_additions <= 0) {
       throw "Changelog update needs to include additional information"
     }
