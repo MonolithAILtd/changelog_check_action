@@ -43,7 +43,11 @@ async function main() {
     if (new_additions <= 0) {
       throw "Changelog update needs to include additional information"
     }
-    core.setOutput("changelog_updates", changelog_data[0].patch);
+    const output_string = `The changelog changes: ${changelog_data[0].patch}`
+    core.setOutput("changelog_updates", output_string);
+
+    const output_stringify = JSON.stringify(changelog_data[0].patch, undefined, 2)
+    core.setOutput("changelog_updates_stringify", output_stringify);
     // const payload_string = JSON.stringify(github.context.payload, undefined, 2)
     // const files_string = JSON.stringify(files, undefined, 2)
     // console.log(`The event payload: ${payload_string}`);
